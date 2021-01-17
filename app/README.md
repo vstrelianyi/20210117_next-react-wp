@@ -1,3 +1,6 @@
+based on course
+https://www.youtube.com/watch?v=QZA51PwSF7w&list=PLD8nQCAhR3tQSv-U_LNdiHEViB1kj6LrM&index=6
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
