@@ -38,5 +38,6 @@ export const getStaticProps = async ( context ) => {
         footerMenus: data.footerMenus.nodes,
       },
     },
+    revalidate: 1,
   };
 };

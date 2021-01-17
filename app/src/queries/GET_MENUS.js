@@ -3,12 +3,12 @@ import MenuFragment from './fragments/MENUS';
 
 const GET_MENUS = gql`
 query Menus {
-  headerMenus: menuItems(where: {location: EXTRA_MENU }) {
+  headerMenus: menuItems(where: {location: HEADER_MENU }) {
     nodes {
       ...MenuFragment
     }
   }
-  footerMenus: menuItems(where: {location: HEADER_MENU}) {
+  footerMenus: menuItems(where: {location: EXTRA_MENU}) {
     nodes {
       ...MenuFragment
     }
