@@ -18,9 +18,9 @@ const styles_Nav = css`
 	}
 `;
 
-const Nav = ( { menus, } ) => {
+const Nav = ( { menu, logo, } ) => {
 
-  const [ isMenuVisible, setMenuVisibility, ] = useState( false );
+  const [ isMenuVisible, setMenuVisibility, ] = useState( true );
 
   const handleBurgerClick = ( e ) => {
     // console.log( e.target );
@@ -29,14 +29,19 @@ const Nav = ( { menus, } ) => {
 
   return (
     <>
-      { menus?.length ?
+      { menu?.length ?
         <div className="container">
+          <Link href="/">
+            <a>
+              <img src={ logo.sourceUrl } alt={ logo.title }/>
+            </a>
+          </Link>
           <Burger onClick={ ( e ) => {
             handleBurgerClick( e );
           } }/>
           <nav css={ styles_Nav } className={ `${ isMenuVisible ? 'visible' : 'hidden' }` }>
             <ul>
-              { menus.map( item => {
+              { menu.map( item => {
                 return (
                   <li key={ item.databaseId }>
                     <Link href={ item.path }>

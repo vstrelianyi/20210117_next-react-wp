@@ -12,14 +12,14 @@ const styles_Nav = css`
 	}
 `;
 
-const NavFooter = ( { menus, } ) => {
+const NavFooter = ( { menu, } ) => {
   return (
     <>
-      { menus?.length ?
+      { menu?.length ?
         <nav css={ styles_Nav }>
           <div className="container">
             <ul>
-              { menus.map( item => {
+              { menu.map( item => {
                 return (
                   <li key={ item.databaseId }>
                     <Link href={ item.path }>

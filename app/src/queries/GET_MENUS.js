@@ -7,12 +7,21 @@ query Menus {
     nodes {
       ...MenuFragment
     }
+	}
+	logo: menu(idType: DATABASE_ID, id: "2") {
+    acf {
+      logo {
+				altText
+				title
+        sourceUrl
+      }
+    }
   }
   footerMenus: menuItems(where: {location: EXTRA_MENU}) {
     nodes {
       ...MenuFragment
     }
-  }
+	}
 }
 ${ MenuFragment }
 `;

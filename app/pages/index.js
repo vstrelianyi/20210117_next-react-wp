@@ -4,22 +4,23 @@ import Layout from '../src/components/Layout';
 import client from '../src/apollo/client';
 
 import GET_MENUS from '../src/queries/GET_MENUS';
-
-import NavHeader from '../src/components/NavHeader';
-import NavFooter from '../src/components/NavFooter';
+import Header from '../src/components/Header';
+import Footer from '../src/components/Footer';
 
 const styles_Home = css`
 	background-color: red;
 `;
 
-const Home = ( { menus, } ) => {
+const Home = ( { menus, logo, } ) => {
   return (
     <div css={ styles_Home } className="page-wrapper">
-      <NavHeader menus={ menus.headerMenus }/>
-      <Layout styling={ styles_Home }>
+      <Header menu={ menus.headerMenu } logo={ logo }/>
+      <main>
+        <Layout styling={ styles_Home }>
 				Hello world
-      </Layout>
-      <NavFooter menus={ menus.footerMenus }/>
+        </Layout>
+      </main>
+      <Footer menu={ menus.footerMenu }/>
     </div>
   );
 };
@@ -33,9 +34,10 @@ export const getStaticProps = async ( context ) => {
 
   return {
     props: {
+      logo: data.logo?.acf.logo,
       menus: {
-        headerMenus: data.headerMenus.nodes,
-        footerMenus: data.footerMenus.nodes,
+        headerMenu: data?.headerMenus.nodes,
+        footerMenu: data?.footerMenus.nodes,
       },
     },
     revalidate: 1,
