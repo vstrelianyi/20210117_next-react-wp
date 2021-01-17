@@ -12,6 +12,7 @@ const styles_Global = css`
 	.container{
 		margin: 0 auto;
 		width: 100%;
+		position: relative;
 		@media( min-width: 576px){
 			width: 540px;
 		}

@@ -1,9 +1,15 @@
 import { css } from '@emotion/react';
 
+import { useState } from 'react';
+
 import Link from 'next/link';
+import Burger from './Burger';
 
 const styles_Nav = css`
 	display: flex;
+	&.hidden{
+		display: none;
+	}
 	ul{
 		display: flex;
 		li{
@@ -13,11 +19,22 @@ const styles_Nav = css`
 `;
 
 const Nav = ( { menus, } ) => {
+
+  const [ isMenuVisible, setMenuVisibility, ] = useState( false );
+
+  const handleBurgerClick = ( e ) => {
+    // console.log( e.target );
+    setMenuVisibility( !isMenuVisible );
+  };
+
   return (
     <>
       { menus?.length ?
-        <nav css={ styles_Nav }>
-          <div className="container">
+        <div className="container">
+          <Burger onClick={ ( e ) => {
+            handleBurgerClick( e );
+          } }/>
+          <nav css={ styles_Nav } className={ `${ isMenuVisible ? 'visible' : 'hidden' }` }>
             <ul>
               { menus.map( item => {
                 return (
@@ -31,8 +48,8 @@ const Nav = ( { menus, } ) => {
                 );
               } ) }
             </ul>
-          </div>
-        </nav>
+          </nav>
+        </div>
         : null }
     </>
   );
