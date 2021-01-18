@@ -5,11 +5,20 @@ query SEO{
 	seo {
 		social {
 			facebook {
-				url
-			}
-			instagram {
-				url
-			}
+        url
+      }
+      instagram {
+        url
+      }
+      linkedIn {
+        url
+      }
+      twitter {
+        username
+      }
+      youTube {
+        url
+      }
 		}
 	}
 }

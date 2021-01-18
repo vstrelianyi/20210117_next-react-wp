@@ -5,9 +5,30 @@ import client from '../src/apollo/client';
 import { Global, css } from '@emotion/react';
 
 const styles_Global = css`
+	html{
+		height: 100%;
+	}
 	body{
 		margin: 0px;
 		color: #000;
+		height: 100%;
+		#__next{
+			height: 100%;
+		}
+	}
+	.page-wrapper{
+		display: flex;
+		flex-direction: column;
+		min-height: 100%;
+		header{
+			flex-shrink: 1;
+		}
+		main{
+			flex-grow: 1;
+		}
+		footer{
+			flex-shrink: 1;
+		}
 	}
 	.container{
 		margin: 0 auto;
@@ -28,6 +49,9 @@ const styles_Global = css`
 	}
 	a,span,p{
 		color: inherit;
+	}
+	a{
+		display: inline-block;
 	}
 	a,button{
 		cursor: pointer;

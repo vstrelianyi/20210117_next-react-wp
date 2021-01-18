@@ -18,6 +18,10 @@ const styles_Nav = css`
 	}
 `;
 
+const styles_Brand = css`
+	display: inline-flex;
+`;
+
 const Nav = ( { menu, logo, } ) => {
 
   const [ isMenuVisible, setMenuVisibility, ] = useState( true );
@@ -32,7 +36,7 @@ const Nav = ( { menu, logo, } ) => {
       { menu?.length ?
         <div className="container">
           <Link href="/">
-            <a>
+            <a css={ styles_Brand }>
               <img src={ logo.sourceUrl } alt={ logo.title }/>
             </a>
           </Link>

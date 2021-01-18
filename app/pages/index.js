@@ -6,15 +6,18 @@ import client from '../src/apollo/client';
 import GET_MENUS from '../src/queries/GET_MENUS';
 import GET_OPTIONS from '../src/queries/GET_OPTIONS';
 import GET_SETTINGS from '../src/queries/GET_SETTINGS';
+import GET_SEO from '../src/queries/GET_SEO';
+
 import Header from '../src/components/Header';
 import Footer from '../src/components/Footer';
 import Head from 'next/head';
+import SocialIcons from '../src/components/SocialIcons';
 
 const styles_Home = css`
 	background-color: red;
 `;
 
-const Home = ( { menus, logo, options, settings, } ) => {
+const Home = ( { menus, logo, options, settings, social, } ) => {
   return (
     <>
       <Head>
@@ -25,7 +28,7 @@ const Home = ( { menus, logo, options, settings, } ) => {
         <Header menu={ menus.headerMenu } logo={ logo }/>
         <main>
           <Layout styling={ styles_Home }>
-				Hello world
+            <SocialIcons social={ social }/>
           </Layout>
         </main>
         <Footer menu={ menus.footerMenu }/>
@@ -49,8 +52,13 @@ export const getStaticProps = async ( context ) => {
     query: GET_SETTINGS,
   } );
 
+  const resultSEO = await client.query( {
+    query: GET_SEO,
+  } );
+
   return {
     props: {
+      social: resultSEO?.data.seo.social,
       settings: resultSettings?.data.generalSettings,
       options: resultOptions?.data.options.acf,
       logo: resultMenus?.data.logo?.acf.logo,
