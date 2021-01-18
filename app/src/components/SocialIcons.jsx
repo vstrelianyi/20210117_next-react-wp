@@ -3,6 +3,21 @@ import { FaFacebook, FaInstagram, FaYoutube, FaTwitter, FaLinkedin } from 'react
 
 const styles_SocialIcons = css`
 	display: flex;
+	/* margin-left: -20px; */
+	/* margin-right: -20px; */
+	li{
+		a{
+			padding: 20px;
+			&:hover{
+				svg{
+					fill: #fff;
+				}
+			}
+			svg{
+				transition: 0.5s fill;
+			}
+		}
+	}
 `;
 
 const SocialIcons = ( { social, } ) => {
