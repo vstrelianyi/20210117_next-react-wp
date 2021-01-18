@@ -1,13 +1,14 @@
 import { css } from '@emotion/react';
-import Layout from '../src/components/Layout';
 
 import client from '../src/apollo/client';
 
+import GET_PAGE from '../src/queries/GET_PAGE';
 import GET_MENUS from '../src/queries/GET_MENUS';
 import GET_OPTIONS from '../src/queries/GET_OPTIONS';
 import GET_SETTINGS from '../src/queries/GET_SETTINGS';
-import GET_SEO from '../src/queries/GET_SEO';
+import GET_SEO_GLOBAL from '../src/queries/GET_SEO_GLOBAL';
 
+import Layout from '../src/components/Layout';
 import Header from '../src/components/Header';
 import Footer from '../src/components/Footer';
 import Head from 'next/head';
@@ -17,7 +18,7 @@ const styles_Home = css`
 	background-color: red;
 `;
 
-const Home = ( { menus, logo, options, settings, social, } ) => {
+const Home = ( { menus, logo, options, settings, social, page, } ) => {
   return (
     <>
       <Head>
@@ -28,6 +29,7 @@ const Home = ( { menus, logo, options, settings, social, } ) => {
         <Header menu={ menus.headerMenu } logo={ logo }/>
         <main>
           <Layout styling={ styles_Home }>
+            <h1>{ page?.title }</h1>
             <SocialIcons social={ social }/>
           </Layout>
         </main>
@@ -53,7 +55,14 @@ export const getStaticProps = async ( context ) => {
   } );
 
   const resultSEO = await client.query( {
-    query: GET_SEO,
+    query: GET_SEO_GLOBAL,
+  } );
+
+  const resultPage = await client.query( {
+    query: GET_PAGE,
+    variables: {
+      uri: '/',
+    },
   } );
 
   return {
@@ -66,6 +75,7 @@ export const getStaticProps = async ( context ) => {
         headerMenu: resultMenus?.data.headerMenus.nodes,
         footerMenu: resultMenus?.data.footerMenus.nodes,
       },
+      page: resultPage?.data.page ?? {},
     },
     revalidate: 1,
   };

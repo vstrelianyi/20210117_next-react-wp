@@ -1,37 +1,99 @@
+import { css } from '@emotion/react';
+
 import client from '../src/apollo/client';
+
 import GET_PAGES_URI from '../src/queries/GET_PAGES';
 import GET_PAGE from '../src/queries/GET_PAGE';
+import GET_OPTIONS from '../src/queries/GET_OPTIONS';
+import GET_SETTINGS from '../src/queries/GET_SETTINGS';
+import GET_SEO_GLOBAL from '../src/queries/GET_SEO_GLOBAL';
+
 import { isEmpty } from 'lodash';
 import { useRouter } from 'next/router';
 
-const Pages = ( { data, } ) => {
+import Layout from '../src/components/Layout';
+import Header from '../src/components/Header';
+import Footer from '../src/components/Footer';
+import Head from 'next/head';
+import SocialIcons from '../src/components/SocialIcons';
+import SEO from '../src/components/SEO';
+import { sanitize } from '../src/utils/miscellaneous';
+import { isCustomPageUri } from '../src/utils/slugs';
+
+const styles_Home = css`
+	background-color: red;
+`;
+
+const Page = ( { data, } ) => {
   const router = useRouter();
 
   if ( router.isFallback ){
     return <div>Loading...</div>;
   }
 
-  return router?.query?.slug.join( '/' );
+  return (
+    <>
+      <SEO seo={ data.page?.seo } uri={ data.page?.uri }/>
+      <Head>
+        <title>{ data.page?.seo.title }</title>
+        <link rel="shortcut icon" href={ data?.options?.favicon.sourceUrl }/>
+        { data?.page?.seo.schemaDetails && (
+          <script
+            type="applicaton/ld+json"
+            className="yoast-schema-graph"
+            key="yoastSchema"
+            dangerouslySetInnerHTML={ { __html: sanitize( data?.page?.seo.schemaDetails ), } }
+          />
+        ) }
+      </Head>
+      <div css={ styles_Home } className="page-wrapper">
+        <Header menu={ data?.menus.headerMenu } logo={ data?.logo }/>
+        <main>
+          <Layout styling={ styles_Home }>
+            <h1>{ data?.page.title }</h1>
+            <SocialIcons social={ data?.social }/>
+          </Layout>
+        </main>
+        <Footer menu={ data?.menus.footerMenu }/>
+      </div>
+    </>
+  );
 };
 
-export default Pages;
+export default Page;
 
 export async function getStaticProps ( { params, } ) {
-  const { data, } = await client.query( {
+  const resultPage = await client.query( {
     query: GET_PAGE,
     variables: {
       uri: params?.slug.join( '/' ),
     },
   } );
 
+  const resultOptions = await client.query( {
+    query: GET_OPTIONS,
+  } );
+
+  const resultSettings = await client.query( {
+    query: GET_SETTINGS,
+  } );
+
+  const resultSEO = await client.query( {
+    query: GET_SEO_GLOBAL,
+  } );
+
   return {
     props: {
       data: {
+        social: resultSEO?.data.seo.social,
+        settings: resultSettings?.data.generalSettings,
+        options: resultOptions?.data.options.acf,
+        logo: resultPage?.data.logo?.acf.logo,
         menus: {
-          headerMenus: data?.headerMenus?.edges || [],
-          footerMenus: data?.footerMenus?.edges || [],
+          headerMenu: resultPage?.data?.headerMenus?.nodes || [],
+          footerMenu: resultPage?.data?.footerMenus?.nodes || [],
         },
-        page: data?.page ?? {},
+        page: resultPage?.data.page ?? {},
         path: params?.slug.join( '/' ),
       },
     },
@@ -47,7 +109,7 @@ export const getStaticPaths = async () => {
   const pathsData = [];
 
   data?.pages?.nodes && data?.pages?.nodes.map( page => {
-    if ( ! isEmpty( page?.uri ) ){
+    if ( ! isEmpty( page?.uri ) && !isCustomPageUri( page?.uri )  ){
       const slugs = page?.uri?.split( '/' ).filter( pageSlug => pageSlug );
       pathsData.push( { params: { slug: slugs, }, } );
     }
