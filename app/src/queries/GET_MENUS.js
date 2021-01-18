@@ -17,7 +17,7 @@ query Menus {
       }
     }
   }
-  footerMenus: menuItems(where: {location: EXTRA_MENU}) {
+  footerMenus: menuItems(where: {location: FOOTER_MENU}) {
     nodes {
       ...MenuFragment
     }
