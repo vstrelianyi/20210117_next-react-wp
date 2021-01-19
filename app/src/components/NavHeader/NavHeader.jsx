@@ -1,33 +1,11 @@
-import { css } from '@emotion/react';
-
 import { useState } from 'react';
 
 import Link from 'next/link';
-import Burger from './Burger';
+import Burger from '../Burger/Burger';
 
-const styles_Nav = css`
-	display: flex;
-	&.hidden{
-		display: none;
-	}
-	@media( min-width: 768px){
-		&.hidden{
-		display: flex;
-	}
-	}
-	ul{
-		display: flex;
-		li{
-			padding: 15px 20px;
-		}
-	}
-`;
+import styles from './NavHeader.module.scss';
 
-const styles_Brand = css`
-	display: inline-flex;
-`;
-
-const Nav = ( { menu, logo, } ) => {
+const NavHeader = ( { menu, logo, } ) => {
 
   const [ isMenuVisible, setMenuVisibility, ] = useState( false );
 
@@ -41,14 +19,14 @@ const Nav = ( { menu, logo, } ) => {
       { menu?.length ?
         <div className="container">
           <Link href="/">
-            <a css={ styles_Brand }>
+            <a className={ `${ styles.Brand }` }>
               <img src={ logo.sourceUrl } alt={ logo.title }/>
             </a>
           </Link>
           <Burger
             onClick={ ( e ) => handleBurgerClick( e ) }
           />
-          <nav css={ styles_Nav } className={ `${ isMenuVisible ? 'visible' : 'hidden' }` }>
+          <nav className={ `${ styles.NavHeader } ${ isMenuVisible ? 'visible' : 'hidden' }` }>
             <ul>
               { menu.map( item => {
                 return (
@@ -69,4 +47,4 @@ const Nav = ( { menu, logo, } ) => {
   );
 };
 
-export default Nav;
+export default NavHeader;

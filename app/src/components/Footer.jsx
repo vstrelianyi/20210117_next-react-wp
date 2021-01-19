@@ -1,5 +1,5 @@
 
-import NavFooter from './NavFooter';
+import NavFooter from './NavFooter/NavFooter';
 
 const Footer = ( { menu, } ) => {
   return (

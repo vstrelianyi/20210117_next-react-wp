@@ -1,4 +1,4 @@
-import NavHeader from './NavHeader';
+import NavHeader from './NavHeader/NavHeader';
 
 const Header = ( { menu, logo, } ) => {
   return (

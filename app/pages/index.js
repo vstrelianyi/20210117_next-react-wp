@@ -12,28 +12,42 @@ import Layout from '../src/components/Layout';
 import Header from '../src/components/Header';
 import Footer from '../src/components/Footer';
 import Head from 'next/head';
-import SocialIcons from '../src/components/SocialIcons';
+
+// components
+import SocialIcons from '../src/components/SocialIcons/SocialIcons';
+import ComponentSelector from '../src/components/ComponentSelector';
+
+import { v4 as uuidv4 } from 'uuid';
+import Test from '../src/components/Test/Test';
 
 const styles_Home = css`
 	background-color: red;
 `;
 
-const Home = ( { menus, logo, options, settings, social, page, } ) => {
+const Home = ( { data, } ) => {
   return (
     <>
       <Head>
-        <title>{ settings?.title }</title>
-        <link rel="shortcut icon" href={ options?.favicon.sourceUrl }/>
+        <title>{ data?.settings?.title }</title>
+        <link rel="shortcut icon" href={ data?.options?.favicon.sourceUrl }/>
       </Head>
       <div css={ styles_Home } className="page-wrapper">
-        <Header menu={ menus.headerMenu } logo={ logo }/>
+        <Header menu={ data?.menus.headerMenu } logo={ data?.logo }/>
         <main>
           <Layout styling={ styles_Home }>
-            <h1>{ page?.title }</h1>
-            <SocialIcons social={ social }/>
+            <Test/>
+            <h1>{ data?.page?.title }</h1>
+
+            { data?.page.blocks.map( block => {
+              const key = uuidv4();
+
+              return ( <ComponentSelector typename={ block.__typename } key={ key } block={ block } /> );
+            } ) }
+
+            <SocialIcons social={ data?.social }/>
           </Layout>
         </main>
-        <Footer menu={ menus.footerMenu }/>
+        <Footer menu={ data?.menus.footerMenu }/>
       </div>
     </>
   );
@@ -67,15 +81,17 @@ export const getStaticProps = async ( context ) => {
 
   return {
     props: {
-      social: resultSEO?.data.seo.social,
-      settings: resultSettings?.data.generalSettings,
-      options: resultOptions?.data.options.acf,
-      logo: resultMenus?.data.logo?.acf.logo,
-      menus: {
-        headerMenu: resultMenus?.data.headerMenus.nodes,
-        footerMenu: resultMenus?.data.footerMenus.nodes,
+      data: {
+        social: resultSEO?.data.seo.social,
+        settings: resultSettings?.data.generalSettings,
+        options: resultOptions?.data.options.acf,
+        logo: resultMenus?.data.logo?.acf.logo,
+        menus: {
+          headerMenu: resultMenus?.data.headerMenus.nodes,
+          footerMenu: resultMenus?.data.footerMenus.nodes,
+        },
+        page: resultPage?.data.page ?? {},
       },
-      page: resultPage?.data.page ?? {},
     },
     revalidate: 1,
   };

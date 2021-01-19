@@ -1,22 +1,12 @@
-import { css } from '@emotion/react';
-
 import Link from 'next/link';
 
-const styles_Nav = css`
-	display: flex;
-	ul{
-		display: flex;
-		li{
-			padding: 15px 20px;
-		}
-	}
-`;
+import styles from './NavFooter.module.scss';
 
 const NavFooter = ( { menu, } ) => {
   return (
     <>
       { menu?.length ?
-        <nav css={ styles_Nav }>
+        <nav className={ `${ styles.NavFooter }` }>
           <div className="container">
             <ul>
               { menu.map( item => {

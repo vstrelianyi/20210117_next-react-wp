@@ -1,0 +1,22 @@
+
+nav.NavHeader{
+	display: flex;
+	&.hidden{
+		display: none;
+	}
+	@media( min-width: 768px){
+		&.hidden{
+		display: flex;
+	}
+	}
+	ul{
+		display: flex;
+		li{
+			padding: 15px 20px;
+		}
+	}
+}
+
+.brand{
+	display: inline-flex;
+}

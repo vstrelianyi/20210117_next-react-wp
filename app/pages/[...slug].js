@@ -11,14 +11,20 @@ import GET_SEO_GLOBAL from '../src/queries/GET_SEO_GLOBAL';
 import { isEmpty } from 'lodash';
 import { useRouter } from 'next/router';
 
+import { sanitize } from '../src/utils/miscellaneous';
+import { isCustomPageUri } from '../src/utils/slugs';
+
+import { v4 as uuidv4 } from 'uuid';
+
+// components
 import Layout from '../src/components/Layout';
 import Header from '../src/components/Header';
 import Footer from '../src/components/Footer';
 import Head from 'next/head';
-import SocialIcons from '../src/components/SocialIcons';
 import SEO from '../src/components/SEO';
-import { sanitize } from '../src/utils/miscellaneous';
-import { isCustomPageUri } from '../src/utils/slugs';
+import SocialIcons from '../src/components/SocialIcons/SocialIcons';
+
+import ComponentSelector from '../src/components/ComponentSelector';
 
 const styles_Home = css`
 	background-color: red;
@@ -51,6 +57,13 @@ const Page = ( { data, } ) => {
         <main>
           <Layout styling={ styles_Home }>
             <h1>{ data?.page.title }</h1>
+
+            { data?.page.blocks.map( block => {
+              const key = uuidv4();
+
+              return ( <ComponentSelector typeName={ block.__typename } key={ key } block={ block } /> );
+            } ) }
+
             <SocialIcons social={ data?.social }/>
           </Layout>
         </main>
@@ -117,6 +130,6 @@ export const getStaticPaths = async () => {
 
   return {
     paths: pathsData,
-    fallback: true,
+    fallback: false,
   };
 };

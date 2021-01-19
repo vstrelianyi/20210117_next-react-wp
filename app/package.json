@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
-		"start": "next start",
-		"cypress:open": "cypress open",
-		"cypress:run": "cypress run --browser chrome"
+    "start": "next start",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run --browser chrome"
   },
   "dependencies": {
     "@apollo/client": "^3.3.7",
@@ -19,7 +19,9 @@
     "prop-types": "^15.7.2",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "react-icons": "^4.1.0"
+    "react-icons": "^4.1.0",
+    "sass": "^1.32.4",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.1.2",

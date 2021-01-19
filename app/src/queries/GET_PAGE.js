@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 import FragmentMenuItem from './fragments/FRAGMENT_MENUITEM';
 import FragmentSEO from './fragments/FRAGMENT_SEO';
+// import FragmentBlocks from './fragments/FRAGMENT_BLOCKS';
 
 const GET_PAGE = gql`
 	query GET_PAGE($uri: String) {
@@ -24,11 +25,26 @@ const GET_PAGE = gql`
 			}
 		}
 	  page: pageBy(uri: $uri) {
-	    id
+			databaseId
 	    title
 	    content
 	    slug
 			uri
+			blocks {
+				name
+				order
+				saveContent
+				innerBlocks {
+					name
+					order
+					saveContent
+					innerBlocks {
+						name
+						order
+						saveContent
+					}
+				}
+			}
 			seo{
 				...FragmentSEO
 			}
@@ -36,6 +52,7 @@ const GET_PAGE = gql`
 	}
 	${ FragmentMenuItem }
 	${ FragmentSEO }
-	`;
+`;
+// ${ FragmentBlocks }
 
 export default GET_PAGE;

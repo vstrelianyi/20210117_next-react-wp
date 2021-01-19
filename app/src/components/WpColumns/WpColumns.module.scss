@@ -1,0 +1,12 @@
+.WpColumns{
+	:global {
+
+		.wp-block-columns{
+			display: flex;
+			.wp-block-column{
+				flex-grow: 1;
+			}
+		}
+
+	}
+}

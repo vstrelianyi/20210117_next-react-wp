@@ -1,28 +1,10 @@
-import { css } from '@emotion/react';
 import { FaFacebook, FaInstagram, FaYoutube, FaTwitter, FaLinkedin } from 'react-icons/fa';
 
-const styles_SocialIcons = css`
-	display: flex;
-	/* margin-left: -20px; */
-	/* margin-right: -20px; */
-	li{
-		a{
-			padding: 20px;
-			&:hover{
-				svg{
-					fill: #fff;
-				}
-			}
-			svg{
-				transition: 0.5s fill;
-			}
-		}
-	}
-`;
+import styles from './SocialIcons.module.scss';
 
 const SocialIcons = ( { social, } ) => {
   return (
-    <ul className="social-icons" css={ styles_SocialIcons }>
+    <ul className={ `${ styles.SocialIcons }` }>
       { social?.facebook.url && <li>
         <a href={ social?.facebook.url } target="_blank" rel="noopener noreferrer"><FaFacebook/></a>
       </li> }
