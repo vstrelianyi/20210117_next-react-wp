@@ -83,7 +83,7 @@ const Burger = ( { onClick, } ) => {
 	`;
 
   return (
-    <div className="burger" css={ styles_burger }>
+    <div className="burger" css={ styles_burger } data-cy="mmenu-btn">
       <button
         aria-label="open/close navigation"
         onClick = { ( e ) => onClick( e ) }
